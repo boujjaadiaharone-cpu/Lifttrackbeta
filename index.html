@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#58cc02">
+<link rel="manifest" href="manifest.json">
+<title>LiftTrack</title>
+<style>
+:root{
+  --green:#58cc02;--green2:#46a302;--greenSoft:#eaf8df;
+  --purple:#7c4dff;--orange:#ff9600;--blue:#1cb0f6;
+  --ink:#263238;--muted:#718096;--line:#e4e9ed;
+  --bg:#f7f9fb;--white:#fff;--danger:#ff4b4b;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg)}
+button,input,select{font:inherit}
+button{border:0;cursor:pointer}
+.app{max-width:760px;margin:auto;min-height:100vh;padding-bottom:88px}
+header{position:sticky;top:0;z-index:10;background:rgba(247,249,251,.94);backdrop-filter:blur(15px);padding:18px 18px 12px;border-bottom:1px solid var(--line)}
+.top{display:flex;align-items:center;justify-content:space-between}
+.logo{font-weight:1000;font-size:25px;letter-spacing:-1px}.logo span{color:var(--green)}
+.xpmini{font-weight:900;color:var(--purple)}
+main{padding:18px}
+.screen{display:none}.screen.active{display:block}
+.hero{background:linear-gradient(135deg,#fff,#effae7);border:2px solid #dcebd3;border-radius:28px;padding:22px;box-shadow:0 6px 0 rgba(38,50,56,.06)}
+.eyebrow{font-size:13px;font-weight:1000;color:var(--muted);text-transform:uppercase;letter-spacing:.09em}
+h1{font-size:34px;line-height:1.05;margin:7px 0 10px;letter-spacing:-1.5px}
+h2{font-size:24px;margin:26px 0 12px;letter-spacing:-.6px}
+p{margin:0;color:var(--muted);font-weight:650;line-height:1.45}
+.primary{width:100%;margin-top:18px;background:var(--green);color:white;padding:16px;border-radius:16px;font-weight:1000;font-size:17px;box-shadow:0 4px 0 var(--green2)}
+.primary:active{transform:translateY(3px);box-shadow:0 1px 0 var(--green2)}
+.progress{height:13px;background:#e7edf0;border-radius:99px;overflow:hidden;margin-top:15px}
+.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--green),#8be53c);border-radius:99px;transition:width .7s}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.card{background:white;border:2px solid var(--line);border-radius:21px;padding:17px;box-shadow:0 4px 0 rgba(38,50,56,.045)}
+.stat b{display:block;font-size:27px;margin:5px 0}.stat small{color:var(--muted);font-weight:800}
+.icon{font-size:27px}.tag{display:inline-block;padding:6px 9px;border-radius:10px;background:var(--greenSoft);color:var(--green2);font-size:12px;font-weight:1000}
+.quest{display:flex;align-items:center;gap:13px}.quest .qicon{width:48px;height:48px;border-radius:15px;background:#f1f5f7;display:grid;place-items:center;font-size:24px}.quest .qbody{flex:1}.quest strong{display:block}.qbar{height:8px;background:#e9eef1;border-radius:99px;margin-top:7px;overflow:hidden}.qbar i{display:block;height:100%;background:var(--green);width:0}
+.quick{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.quick button{background:white;border:2px solid var(--line);border-radius:21px;padding:18px;text-align:left;box-shadow:0 4px 0 rgba(38,50,56,.045)}.quick button b{display:block;margin-top:9px}.quick button span{font-size:27px}
+.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(760px,100%);height:78px;background:rgba(255,255,255,.96);backdrop-filter:blur(15px);border-top:2px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);z-index:20;padding-bottom:env(safe-area-inset-bottom)}
+.nav button{background:none;color:#89939b;font-size:11px;font-weight:900;position:relative}.nav button div{font-size:23px;margin-bottom:3px}.nav button.active{color:var(--green)}.nav button.active:before{content:"";position:absolute;top:-2px;left:27%;right:27%;height:4px;background:var(--green);border-radius:9px}
+.sectionhead{display:flex;align-items:end;justify-content:space-between;gap:10px}.sectionhead button{background:var(--greenSoft);color:var(--green2);padding:9px 11px;border-radius:11px;font-weight:900}
+.rankPath{position:relative}.rankPath:before{content:"";position:absolute;left:29px;top:32px;bottom:32px;width:6px;background:#e6ebee;border-radius:99px}
+.rank{position:relative;display:flex;align-items:center;gap:14px;padding:12px 0}.orb{z-index:1;width:62px;height:62px;border-radius:50%;background:white;border:5px solid #e3e8eb;display:grid;place-items:center;font-size:25px;box-shadow:0 4px 0 rgba(38,50,56,.08)}.rank.current .orb{border-color:var(--green);box-shadow:0 0 0 6px #eaf8df,0 4px 0 var(--green2)}.rank.done .orb{border-color:var(--green);background:#f1faeb}.rank small{display:block;color:var(--muted);font-weight:800;margin-top:3px}
+.tabs{display:flex;gap:8px;overflow:auto;padding-bottom:4px}.tabs button{white-space:nowrap;background:#fff;border:2px solid var(--line);padding:10px 13px;border-radius:13px;font-weight:900}.tabs button.active{background:var(--green);border-color:var(--green);color:white}
+.exercise{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:10px}.exercise b{display:block}.exercise small{color:var(--muted);font-weight:750}.exercise button{background:var(--greenSoft);color:var(--green2);padding:10px;border-radius:12px;font-weight:1000}
+.field{margin-top:12px}.field label{display:block;font-size:12px;font-weight:1000;color:var(--muted);margin-bottom:6px}.field input,.field select{width:100%;padding:13px;border:2px solid var(--line);border-radius:13px;background:#fff;outline:none}.field input:focus{border-color:var(--green)}
+.workoutCard{background:white;border:2px solid var(--line);border-radius:25px;padding:20px}.setnum{font-size:12px;color:var(--muted);font-weight:1000;letter-spacing:.1em}.big{font-size:56px;font-weight:1000;letter-spacing:-3px;margin:8px 0}.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.donebtn{width:100%;background:var(--green);color:white;padding:16px;border-radius:16px;font-weight:1000;margin-top:12px}
+.timer{text-align:center}.timer .clock{font-size:64px;font-weight:1000;margin:10px}.timer button{background:var(--ink);color:white;padding:12px 17px;border-radius:13px;font-weight:900}
+.barline{margin:14px 0}.barline header{position:static;padding:0;border:0;background:none;display:flex;justify-content:space-between}.barline .track{height:14px;background:#edf1f3;border-radius:99px;overflow:hidden}.barline i{display:block;height:100%;border-radius:99px;background:var(--green)}
+.empty{text-align:center;padding:30px 10px;color:var(--muted)}
+.toast{position:fixed;left:50%;bottom:92px;transform:translate(-50%,20px);background:var(--ink);color:#fff;padding:12px 16px;border-radius:14px;font-weight:900;opacity:0;pointer-events:none;transition:.25s;z-index:50}.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(min-width:650px){main{padding:26px}.grid{grid-template-columns:repeat(4,1fr)}.quick{grid-template-columns:repeat(4,1fr)}}
+</style>
+</head>
+<body>
+<div class="app">
+<header><div class="top"><div class="logo">Lift<span>Track</span></div><div class="xpmini" id="headXP">0 XP</div></div></header>
+<main>
+<section id="home" class="screen active">
+<div class="hero">
+<div class="eyebrow">Aujourd'hui</div>
+<h1 id="hello">Prêt à progresser ?</h1>
+<p>Une séance à la fois. Chaque série compte.</p>
+<div class="progress"><i id="xpbar"></i></div>
+<p style="margin-top:8px;font-size:13px"><b id="xpText">0 / 500 XP</b> avant Argent</p>
+<button class="primary" onclick="startWorkout()">▶ Commencer ma séance</button>
+</div>
+<h2>Ton résumé</h2>
+<div class="grid">
+<div class="card stat"><span class="icon">🔥</span><b id="streak">0</b><small>jours de série</small></div>
+<div class="card stat"><span class="icon">⚡</span><b id="level">1</b><small>niveau</small></div>
+<div class="card stat"><span class="icon">🏆</span><b id="rank">Bronze</b><small>rang</small></div>
+<div class="card stat"><span class="icon">💪</span><b id="sessions">0</b><small>séances</small></div>
+</div>
+<h2>Quêtes du jour</h2>
+<div class="card quest"><div class="qicon">🏋️</div><div class="qbody"><strong>Faire une série</strong><div class="qbar"><i id="q1"></i></div><small id="q1txt">0 / 1</small></div></div>
+<div style="height:10px"></div>
+<div class="card quest"><div class="qicon">⚡</div><div class="qbody"><strong>Gagner 50 XP</strong><div class="qbar"><i id="q2"></i></div><small id="q2txt">0 / 50 XP</small></div></div>
+<h2>Accès rapide</h2>
+<div class="quick">
+<button onclick="show('workouts')"><span>🏋️</span><b>S'entraîner</b><small>Choisir une séance</small></button>
+<button onclick="show('progress')"><span>📈</span><b>Progression</b><small>Voir tes records</small></button>
+<button onclick="show('nutrition')"><span>🥗</span><b>Nutrition</b><small>Macros & repas</small></button>
+<button onclick="show('ranks')"><span>🏆</span><b>Rangs</b><small>Monter de niveau</small></button>
+</div>
+</section>
+
+<section id="workouts" class="screen">
+<div class="sectionhead"><div><div class="eyebrow">Entraînement</div><h1>Choisis ta séance</h1></div></div>
+<p>Des routines simples pour commencer sans réfléchir.</p>
+<div class="grid" style="margin-top:16px">
+<button class="card" onclick="startWorkout('Push')"><span class="icon">🔥</span><b>Push</b><p>Dos, pecs, épaules</p></button>
+<button class="card" onclick="startWorkout('Pull')"><span class="icon">💪</span><b>Pull</b><p>Dos, biceps</p></button>
+<button class="card" onclick="startWorkout('Legs')"><span class="icon">🦵</span><b>Legs</b><p>Jambes complètes</p></button>
+<button class="card" onclick="startWorkout('Full Body')"><span class="icon">⚡</span><b>Full Body</b><p>Tout le corps</p></button>
+</div>
+<h2>Bibliothèque</h2>
+<div class="card">
+<div class="exercise"><div><b>Développé couché</b><small>Pectoraux · triceps</small></div><button onclick="toast('Ajouté à ta séance')">＋</button></div>
+<div class="exercise"><div><b>Tirage vertical</b><small>Dos · biceps</small></div><button onclick="toast('Ajouté à ta séance')">＋</button></div>
+<div class="exercise"><div><b>Squat</b><small>Quadriceps · fessiers</small></div><button onclick="toast('Ajouté à ta séance')">＋</button></div>
+<div class="exercise"><div><b>Développé épaules</b><small>Épaules · triceps</small></div><button onclick="toast('Ajouté à ta séance')">＋</button></div>
+</div>
+</section>
+
+<section id="session" class="screen">
+<div class="eyebrow" id="sessionType">Séance</div>
+<h1 id="exerciseName">Développé couché</h1>
+<div class="workoutCard">
+<div class="setnum" id="setLabel">SÉRIE 1 / 3</div>
+<div class="big"><span id="weight">40</span> kg</div>
+<div class="two">
+<div class="field"><label>POIDS</label><input id="weightInput" type="number" value="40"></div>
+<div class="field"><label>RÉPÉTITIONS</label><input id="repsInput" type="number" value="8"></div>
+</div>
+<button class="donebtn" onclick="completeSet()">✓ Série terminée</button>
+</div>
+<div class="card timer" style="margin-top:14px"><div class="eyebrow">Repos</div><div class="clock" id="clock">01:30</div><button onclick="startTimer()">Démarrer</button></div>
+<div class="progress"><i id="sessionbar"></i></div>
+<p style="text-align:center;margin-top:8px" id="sessionProgress">0 / 3 séries</p>
+</section>
+
+<section id="ranks" class="screen">
+<div class="eyebrow">Progression</div><h1>Ton parcours</h1>
+<p>Gagne de l'XP avec tes séances et débloque chaque rang.</p>
+<div class="card rankPath" style="margin-top:18px" id="rankPath"></div>
+</section>
+
+<section id="progress" class="screen">
+<div class="eyebrow">Statistiques</div><h1>Ta progression</h1>
+<div class="grid">
+<div class="card stat"><span class="icon">📦</span><b id="volume">0</b><small>kg de volume</small></div>
+<div class="card stat"><span class="icon">🏅</span><b id="prs">0</b><small>records</small></div>
+</div>
+<h2>e1RM</h2>
+<div class="card">
+<div class="barline"><header><b>Développé couché</b><span id="benchVal">0 kg</span></header><div class="track"><i id="benchBar"></i></div></div>
+<div class="barline"><header><b>Squat</b><span>0 kg</span></header><div class="track"><i style="width:0%"></i></div></div>
+<div class="barline"><header><b>Tirage vertical</b><span>0 kg</span></header><div class="track"><i style="width:0%"></i></div></div>
+</div>
+</section>
+
+<section id="nutrition" class="screen">
+<div class="eyebrow">Nutrition</div><h1>Ton alimentation</h1>
+<p>Garde une vision simple de tes objectifs quotidiens.</p>
+<div class="card" style="margin-top:18px">
+<div class="field"><label>OBJECTIF CALORIES</label><input id="calGoal" type="number" value="2500" oninput="updateNutrition()"></div>
+<div class="field"><label>CALORIES CONSOMMÉES</label><input id="calNow" type="number" value="0" oninput="updateNutrition()"></div>
+<div class="barline"><header><b>Calories</b><span id="calTxt">0 / 2500 kcal</span></header><div class="track"><i id="calBar"></i></div></div>
+</div>
+<h2>Macros</h2>
+<div class="grid">
+<div class="card"><span class="tag">PROTÉINES</span><h2 style="margin:8px 0">0 g</h2><p>Objectif : 150 g</p></div>
+<div class="card"><span class="tag">GLUCIDES</span><h2 style="margin:8px 0">0 g</h2><p>Objectif : 280 g</p></div>
+<div class="card"><span class="tag">LIPIDES</span><h2 style="margin:8px 0">0 g</h2><p>Objectif : 80 g</p></div>
+<div class="card"><span class="tag">EAU</span><h2 style="margin:8px 0">0 L</h2><p>Objectif : 2.5 L</p></div>
+</div>
+</section>
+</main>
+<nav class="nav">
+<button class="active" onclick="show('home',this)"><div>⌂</div>Accueil</button>
+<button onclick="show('workouts',this)"><div>🏋️</div>Séances</button>
+<button onclick="show('progress',this)"><div>📈</div>Stats</button>
+<button onclick="show('nutrition',this)"><div>🥗</div>Nutrition</button>
+<button onclick="show('ranks',this)"><div>🏆</div>Rangs</button>
+</nav>
+<div class="toast" id="toast"></div>
+</div>
+<script>
+const KEY='lifttrack_zero_v1';
+let data=JSON.parse(localStorage.getItem(KEY)||'null')||{xp:0,sessions:0,streak:0,volume:0,prs:0};
+let session={type:'Full Body',set:0,total:3,timer:null,seconds:90};
+
+function save(){localStorage.setItem(KEY,JSON.stringify(data));render()}
+function rankInfo(){
+ const ranks=[['Bronze',0,'🥉'],['Argent',500,'🥈'],['Or',1200,'🥇'],['Diamant',1700,'💎'],['Mythique',2200,'✦'],['Légendaire',3600,'♛'],['Star',5500,'★'],['Pro',8000,'👑']];
+ let r=ranks[0],next=null;
+ for(let i=0;i<ranks.length;i++){if(data.xp>=ranks[i][1])r=ranks[i];else{next=ranks[i];break}}
+ return {r,next,ranks}
+}
+function render(){
+ const ri=rankInfo(), current=ri.r, next=ri.next;
+ document.getElementById('headXP').textContent=data.xp+' XP';
+ document.getElementById('xpText').textContent=next?`${data.xp} / ${next[1]} XP`:`${data.xp} XP — MAX`;
+ const pct=next?((data.xp-current[1])/(next[1]-current[1])*100):100;
+ document.getElementById('xpbar').style.width=Math.max(0,Math.min(100,pct))+'%';
+ document.getElementById('streak').textContent=data.streak;
+ document.getElementById('level').textContent=Math.floor(data.xp/100)+1;
+ document.getElementById('rank').textContent=current[0];
+ document.getElementById('sessions').textContent=data.sessions;
+ document.getElementById('volume').textContent=data.volume.toLocaleString('fr-FR');
+ document.getElementById('prs').textContent=data.prs;
+ document.getElementById('q1').style.width=(data.sessions?100:0)+'%';
+ document.getElementById('q1txt').textContent=(data.sessions?1:0)+' / 1';
+ document.getElementById('q2').style.width=Math.min(100,data.xp%100+ (data.xp>=50?100:0))+'%';
+ document.getElementById('q2txt').textContent=Math.min(50,data.xp)+' / 50 XP';
+ const p=document.getElementById('rankPath'); p.innerHTML='';
+ ri.ranks.forEach((x,i)=>{
+   const unlocked=data.xp>=x[1], currentRank=x[0]===current[0];
+   p.innerHTML+=`<div class="rank ${currentRank?'current ':''}${unlocked?'done':'locked'}"><div class="orb">${x[2]}</div><div><b>${x[0]}</b><small>${x[1]} XP ${currentRank?'· TU ES ICI':unlocked?'· DÉBLOQUÉ':'· VERROUILLÉ'}</small></div></div>`;
+ });
+}
+function show(id,btn){
+ document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));
+ document.getElementById(id).classList.add('active');
+ document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));
+ if(btn)btn.classList.add('active'); else{
+   const b=[...document.querySelectorAll('.nav button')].find(x=>x.getAttribute('onclick')?.includes(`'${id}'`));
+   if(b)b.classList.add('active');
+ }
+ window.scrollTo({top:0,behavior:'smooth'}); render();
+}
+function startWorkout(type='Full Body'){
+ session={type,set:0,total:3,timer:null,seconds:90};
+ document.getElementById('sessionType').textContent=type+' · Séance en cours';
+ document.getElementById('exerciseName').textContent=type==='Legs'?'Squat':type==='Pull'?'Tirage vertical':'Développé couché';
+ document.getElementById('setLabel').textContent='SÉRIE 1 / 3';
+ document.getElementById('sessionProgress').textContent='0 / 3 séries';
+ document.getElementById('sessionbar').style.width='0%';
+ document.getElementById('clock').textContent='01:30';
+ show('session');
+}
+function completeSet(){
+ session.set++;
+ const w=Number(document.getElementById('weightInput').value)||0;
+ const reps=Number(document.getElementById('repsInput').value)||0;
+ data.xp+=20; data.volume+=w*reps;
+ if(session.set>=session.total){
+   data.sessions++; data.streak=Math.max(1,data.streak+1); data.prs+=1; data.xp+=40;
+   save(); toast('🎉 Séance terminée · +60 XP');
+   setTimeout(()=>show('home'),650);
+ }else{
+   document.getElementById('setLabel').textContent=`SÉRIE ${session.set+1} / 3`;
+   document.getElementById('sessionProgress').textContent=`${session.set} / 3 séries`;
+   document.getElementById('sessionbar').style.width=(session.set/3*100)+'%';
+   toast('⚡ Série validée · +20 XP');
+   save();
+   startTimer();
+ }
+}
+function startTimer(){
+ clearInterval(session.timer);session.seconds=90;updateClock();
+ session.timer=setInterval(()=>{session.seconds--;updateClock();if(session.seconds<=0){clearInterval(session.timer);toast('⏱️ Repos terminé !')}},1000);
+}
+function updateClock(){const m=String(Math.floor(session.seconds/60)).padStart(2,'0'),s=String(session.seconds%60).padStart(2,'0');document.getElementById('clock').textContent=m+':'+s}
+function updateNutrition(){const goal=Number(document.getElementById('calGoal').value)||1,now=Number(document.getElementById('calNow').value)||0;document.getElementById('calTxt').textContent=`${now} / ${goal} kcal`;document.getElementById('calBar').style.width=Math.min(100,now/goal*100)+'%'}
+function toast(t){const el=document.getElementById('toast');el.textContent=t;el.classList.add('show');clearTimeout(window.tt);window.tt=setTimeout(()=>el.classList.remove('show'),1700)}
+render();updateNutrition();
+if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+</script>
+</body>
+</html>
