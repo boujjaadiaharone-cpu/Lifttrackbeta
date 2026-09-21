@@ -6,5 +6,13 @@
   "background_color": "#080d12",
   "theme_color": "#5cf27a",
   "lang": "fr",
-  "description": "Application personnelle de suivi de musculation."
+  "description": "Application personnelle de suivi de musculation.",
+  "icons": [
+    {
+      "src": "logo-lifttrack.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
 }
