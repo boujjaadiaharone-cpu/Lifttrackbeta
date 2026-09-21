@@ -3,254 +3,277 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#58cc02">
+<meta name="theme-color" content="#0b1015">
 <link rel="manifest" href="manifest.json">
-<title>LiftTrack</title>
+<title>LiftTrack — Ultime</title>
 <style>
 :root{
-  --green:#58cc02;--green2:#46a302;--greenSoft:#eaf8df;
-  --purple:#7c4dff;--orange:#ff9600;--blue:#1cb0f6;
-  --ink:#263238;--muted:#718096;--line:#e4e9ed;
-  --bg:#f7f9fb;--white:#fff;--danger:#ff4b4b;
+ --bg:#080d12;--panel:#10171e;--panel2:#151e27;--line:#26323c;--text:#f5f7f8;
+ --muted:#87949e;--green:#5cf27a;--green2:#25ca50;--purple:#9a70ff;--gold:#ffbf38;
+ --orange:#ff8b3d;--blue:#4aa8ff;--red:#ff626c
 }
-*{box-sizing:border-box}
-body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg)}
-button,input,select{font:inherit}
-button{border:0;cursor:pointer}
-.app{max-width:760px;margin:auto;min-height:100vh;padding-bottom:88px}
-header{position:sticky;top:0;z-index:10;background:rgba(247,249,251,.94);backdrop-filter:blur(15px);padding:18px 18px 12px;border-bottom:1px solid var(--line)}
-.top{display:flex;align-items:center;justify-content:space-between}
-.logo{font-weight:1000;font-size:25px;letter-spacing:-1px}.logo span{color:var(--green)}
-.xpmini{font-weight:900;color:var(--purple)}
-main{padding:18px}
-.screen{display:none}.screen.active{display:block}
-.hero{background:linear-gradient(135deg,#fff,#effae7);border:2px solid #dcebd3;border-radius:28px;padding:22px;box-shadow:0 6px 0 rgba(38,50,56,.06)}
-.eyebrow{font-size:13px;font-weight:1000;color:var(--muted);text-transform:uppercase;letter-spacing:.09em}
-h1{font-size:34px;line-height:1.05;margin:7px 0 10px;letter-spacing:-1.5px}
-h2{font-size:24px;margin:26px 0 12px;letter-spacing:-.6px}
-p{margin:0;color:var(--muted);font-weight:650;line-height:1.45}
-.primary{width:100%;margin-top:18px;background:var(--green);color:white;padding:16px;border-radius:16px;font-weight:1000;font-size:17px;box-shadow:0 4px 0 var(--green2)}
-.primary:active{transform:translateY(3px);box-shadow:0 1px 0 var(--green2)}
-.progress{height:13px;background:#e7edf0;border-radius:99px;overflow:hidden;margin-top:15px}
-.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--green),#8be53c);border-radius:99px;transition:width .7s}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.card{background:white;border:2px solid var(--line);border-radius:21px;padding:17px;box-shadow:0 4px 0 rgba(38,50,56,.045)}
-.stat b{display:block;font-size:27px;margin:5px 0}.stat small{color:var(--muted);font-weight:800}
-.icon{font-size:27px}.tag{display:inline-block;padding:6px 9px;border-radius:10px;background:var(--greenSoft);color:var(--green2);font-size:12px;font-weight:1000}
-.quest{display:flex;align-items:center;gap:13px}.quest .qicon{width:48px;height:48px;border-radius:15px;background:#f1f5f7;display:grid;place-items:center;font-size:24px}.quest .qbody{flex:1}.quest strong{display:block}.qbar{height:8px;background:#e9eef1;border-radius:99px;margin-top:7px;overflow:hidden}.qbar i{display:block;height:100%;background:var(--green);width:0}
-.quick{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.quick button{background:white;border:2px solid var(--line);border-radius:21px;padding:18px;text-align:left;box-shadow:0 4px 0 rgba(38,50,56,.045)}.quick button b{display:block;margin-top:9px}.quick button span{font-size:27px}
-.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(760px,100%);height:78px;background:rgba(255,255,255,.96);backdrop-filter:blur(15px);border-top:2px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);z-index:20;padding-bottom:env(safe-area-inset-bottom)}
-.nav button{background:none;color:#89939b;font-size:11px;font-weight:900;position:relative}.nav button div{font-size:23px;margin-bottom:3px}.nav button.active{color:var(--green)}.nav button.active:before{content:"";position:absolute;top:-2px;left:27%;right:27%;height:4px;background:var(--green);border-radius:9px}
-.sectionhead{display:flex;align-items:end;justify-content:space-between;gap:10px}.sectionhead button{background:var(--greenSoft);color:var(--green2);padding:9px 11px;border-radius:11px;font-weight:900}
-.rankPath{position:relative}.rankPath:before{content:"";position:absolute;left:29px;top:32px;bottom:32px;width:6px;background:#e6ebee;border-radius:99px}
-.rank{position:relative;display:flex;align-items:center;gap:14px;padding:12px 0}.orb{z-index:1;width:62px;height:62px;border-radius:50%;background:white;border:5px solid #e3e8eb;display:grid;place-items:center;font-size:25px;box-shadow:0 4px 0 rgba(38,50,56,.08)}.rank.current .orb{border-color:var(--green);box-shadow:0 0 0 6px #eaf8df,0 4px 0 var(--green2)}.rank.done .orb{border-color:var(--green);background:#f1faeb}.rank small{display:block;color:var(--muted);font-weight:800;margin-top:3px}
-.tabs{display:flex;gap:8px;overflow:auto;padding-bottom:4px}.tabs button{white-space:nowrap;background:#fff;border:2px solid var(--line);padding:10px 13px;border-radius:13px;font-weight:900}.tabs button.active{background:var(--green);border-color:var(--green);color:white}
-.exercise{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:10px}.exercise b{display:block}.exercise small{color:var(--muted);font-weight:750}.exercise button{background:var(--greenSoft);color:var(--green2);padding:10px;border-radius:12px;font-weight:1000}
-.field{margin-top:12px}.field label{display:block;font-size:12px;font-weight:1000;color:var(--muted);margin-bottom:6px}.field input,.field select{width:100%;padding:13px;border:2px solid var(--line);border-radius:13px;background:#fff;outline:none}.field input:focus{border-color:var(--green)}
-.workoutCard{background:white;border:2px solid var(--line);border-radius:25px;padding:20px}.setnum{font-size:12px;color:var(--muted);font-weight:1000;letter-spacing:.1em}.big{font-size:56px;font-weight:1000;letter-spacing:-3px;margin:8px 0}.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.donebtn{width:100%;background:var(--green);color:white;padding:16px;border-radius:16px;font-weight:1000;margin-top:12px}
-.timer{text-align:center}.timer .clock{font-size:64px;font-weight:1000;margin:10px}.timer button{background:var(--ink);color:white;padding:12px 17px;border-radius:13px;font-weight:900}
-.barline{margin:14px 0}.barline header{position:static;padding:0;border:0;background:none;display:flex;justify-content:space-between}.barline .track{height:14px;background:#edf1f3;border-radius:99px;overflow:hidden}.barline i{display:block;height:100%;border-radius:99px;background:var(--green)}
-.empty{text-align:center;padding:30px 10px;color:var(--muted)}
-.toast{position:fixed;left:50%;bottom:92px;transform:translate(-50%,20px);background:var(--ink);color:#fff;padding:12px 16px;border-radius:14px;font-weight:900;opacity:0;pointer-events:none;transition:.25s;z-index:50}.toast.show{opacity:1;transform:translate(-50%,0)}
-@media(min-width:650px){main{padding:26px}.grid{grid-template-columns:repeat(4,1fr)}.quick{grid-template-columns:repeat(4,1fr)}}
+*{box-sizing:border-box}html{background:var(--bg)}
+body{margin:0;background:radial-gradient(circle at 50% -15%,#1b3b27 0,#080d12 35%);
+color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif}
+button,input,select{font:inherit}button{cursor:pointer}
+.app{max-width:1100px;margin:auto;min-height:100vh;padding-bottom:92px}
+header{position:sticky;top:0;z-index:50;padding:12px 17px;background:rgba(8,13,18,.91);backdrop-filter:blur(20px);border-bottom:1px solid var(--line)}
+.top{display:flex;justify-content:space-between;align-items:center}.brand{display:flex;align-items:center;gap:10px;font-weight:1000;font-size:23px;letter-spacing:-1px}
+.brand span{color:var(--green)}
+.logo{width:40px;height:40px;border-radius:13px;background:#101b16;border:1px solid #33543d;display:grid;place-items:center;box-shadow:0 0 22px #5cf27a22}.logo svg{width:31px;height:31px}
+.xpTop{font-weight:1000;color:var(--green)}
+main{padding:17px}.screen{display:none}.screen.active{display:block}
+h1{font-size:34px;line-height:1.02;letter-spacing:-1.7px;margin:5px 0 0}h2{font-size:22px;letter-spacing:-.6px;margin:25px 0 12px}
+p{color:var(--muted);font-weight:650;line-height:1.45}.eyebrow{font-size:10px;letter-spacing:.15em;color:var(--green);font-weight:1000;text-transform:uppercase}
+.card{background:linear-gradient(145deg,#111a22,#0d141b);border:1px solid var(--line);border-radius:20px;padding:16px;box-shadow:0 10px 30px #0003}
+.hero{position:relative;overflow:hidden;border:1px solid #2c4934;background:linear-gradient(145deg,#102018,#0e171e);border-radius:27px;padding:22px;box-shadow:0 20px 55px #0006}
+.hero:after{content:"";position:absolute;width:240px;height:240px;right:-120px;top:-120px;border-radius:50%;background:#5cf27a10}
+.hero h1{font-size:clamp(34px,8vw,58px)}.hero p{max-width:620px}
+.primary{width:100%;margin-top:15px;border:0;border-radius:15px;padding:16px;background:linear-gradient(#6cff87,#3cda55);color:#051009;font-weight:1000;box-shadow:0 4px 0 #15963a}
+.primary:active{transform:translateY(3px);box-shadow:0 1px 0 #15963a}
+.progress{height:10px;background:#17232a;border-radius:99px;overflow:hidden}.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,#27cb50,#9cffad);border-radius:99px;transition:.5s}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.stat b{display:block;font-size:25px;margin:5px 0}.stat small{color:var(--muted);font-weight:800}.stat .bigicon{font-size:24px}
+.quick{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.quick button{border:1px solid var(--line);background:linear-gradient(145deg,#121c24,#0c141a);color:var(--text);border-radius:19px;padding:16px;text-align:left}.quick .qi{font-size:26px}.quick b{display:block;margin-top:7px}.quick small{color:var(--muted)}
+.nav{position:fixed;z-index:100;bottom:0;left:50%;transform:translateX(-50%);width:min(1100px,100%);height:80px;padding-bottom:env(safe-area-inset-bottom);
+display:grid;grid-template-columns:repeat(5,1fr);background:rgba(8,13,18,.96);backdrop-filter:blur(20px);border-top:1px solid var(--line)}
+.nav button{border:0;background:none;color:#77848e;font-size:10px;font-weight:900;position:relative}.nav button div{font-size:22px;margin-bottom:3px}.nav button.active{color:var(--green)}.nav button.active:before{content:"";position:absolute;top:0;left:30%;right:30%;height:3px;border-radius:5px;background:var(--green)}
+.sectionHead{display:flex;justify-content:space-between;align-items:end;gap:12px}.back{border:1px solid var(--line);background:#111b23;color:#fff;border-radius:11px;padding:10px 12px;font-weight:900}
+.search{width:100%;margin:15px 0 11px;padding:13px 14px;border-radius:14px;background:#0d161d;border:1px solid var(--line);color:white;outline:0}.search:focus{border-color:var(--green)}
+.chips{display:flex;gap:7px;overflow:auto;padding-bottom:5px}.chips button{white-space:nowrap;border:1px solid var(--line);background:#0e171e;color:#87959f;border-radius:11px;padding:8px 11px;font-size:12px;font-weight:900}.chips button.active{color:var(--green);border-color:#2e6c3b;background:#13241a}
+.machineGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:10px}.machine{padding:0;overflow:hidden;text-align:left}.machineArt{height:100px;background:linear-gradient(145deg,#18252e,#0b1218);display:grid;place-items:center;border-bottom:1px solid var(--line)}.machineArt svg{width:100px;height:84px}.machineBody{padding:12px}.machineBody b{display:block;font-size:14px}.machineBody small{display:block;color:var(--muted);margin-top:4px}.tag{display:inline-block;margin-top:8px;padding:4px 6px;border-radius:7px;border:1px solid #315b3b;color:var(--green);font-size:9px;font-weight:1000}
+.program{display:flex;align-items:center;gap:12px;margin-top:10px}.programIcon{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;background:#17251d;font-size:24px}.programBody{flex:1}.programBody b{display:block}.programBody small{color:var(--muted)}
+.set{display:grid;grid-template-columns:39px 1fr 36px;gap:10px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}.set:last-child{border-bottom:0}.setN{width:37px;height:37px;border-radius:11px;background:#16232b;display:grid;place-items:center;color:var(--green);font-weight:1000}.set input{width:65px;background:#091118;color:white;border:1px solid var(--line);border-radius:8px;padding:6px;text-align:center}.check{width:32px;height:32px;border-radius:50%;border:1px solid #2c6740;background:#13231a;color:var(--green);font-weight:1000}.check.done{background:var(--green);color:#07110a}
+.finish{width:100%;border:0;border-radius:14px;background:var(--green);color:#061009;padding:15px;font-weight:1000;margin-top:12px}
+.clock{text-align:center;font-size:62px;font-weight:1000;letter-spacing:-3px}.dark{border:1px solid var(--line);background:#17232c;color:white;border-radius:11px;padding:10px 13px;font-weight:900}
+.ranks{display:flex;flex-direction:column;gap:8px}.rankCard{display:flex;align-items:center;gap:13px;padding:14px;border-radius:18px;background:linear-gradient(145deg,#111a22,#0d141a);border:1px solid var(--line);position:relative}.rankCard.current{border-color:#3e9c50;box-shadow:0 0 25px #5cf27a13}.rankIcon{width:48px;height:48px;border-radius:15px;display:grid;place-items:center;font-size:24px;flex:none}.rankText{flex:1}.rankText b{font-size:16px}.rankText small{display:block;color:var(--muted);margin-top:3px;font-weight:800}.unlock{font-size:9px;font-weight:1000;color:var(--purple);background:#251b3e;border-radius:8px;padding:5px 7px}.locked{opacity:.58}
+.rankBar{margin-top:16px}.rankBarTop{display:flex;justify-content:space-between;font-size:12px;font-weight:900;margin-bottom:7px}
+.field{margin-top:11px}.field label{display:block;font-size:10px;color:var(--muted);font-weight:1000;margin-bottom:6px}.field input,.field select{width:100%;padding:12px;border-radius:10px;border:1px solid var(--line);background:#091118;color:white}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}.bar{height:11px;background:#18242c;border-radius:99px;overflow:hidden}.bar i{display:block;height:100%;background:var(--green);border-radius:99px}
+.tableRow{display:grid;grid-template-columns:1.5fr .7fr .7fr;gap:8px;padding:11px 0;border-bottom:1px solid var(--line);font-size:13px}.tableRow:last-child{border-bottom:0}
+.toast{position:fixed;z-index:200;bottom:92px;left:50%;transform:translate(-50%,20px);opacity:0;background:#f0fff2;color:#071008;padding:12px 16px;border-radius:13px;font-weight:1000;transition:.25s;white-space:nowrap}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(min-width:700px){main{padding:28px}.grid{grid-template-columns:repeat(4,1fr)}.quick{grid-template-columns:repeat(4,1fr)}.machineGrid{grid-template-columns:repeat(4,1fr)}}
 </style>
 </head>
 <body>
 <div class="app">
-<header><div class="top"><div class="logo">Lift<span>Track</span></div><div class="xpmini" id="headXP">0 XP</div></div></header>
+<header><div class="top">
+<div class="brand"><div class="logo"><svg viewBox="0 0 100 100" fill="none"><path d="M8 34h9v32H8zM19 40h12v20H19zM31 47h38v6H31zM69 40h12v20H69zM83 34h9v32h-9z" fill="#5cf27a"/><path d="M54 13 37 49h14L43 87l27-45H56z" fill="#fff"/></svg></div>Lift<span>Track</span></div>
+<div class="xpTop" id="xpTop">0 XP</div>
+</div></header>
+
 <main>
 <section id="home" class="screen active">
-<div class="hero">
-<div class="eyebrow">Aujourd'hui</div>
-<h1 id="hello">Prêt à progresser ?</h1>
-<p>Une séance à la fois. Chaque série compte.</p>
-<div class="progress"><i id="xpbar"></i></div>
-<p style="margin-top:8px;font-size:13px"><b id="xpText">0 / 500 XP</b> avant Argent</p>
-<button class="primary" onclick="startWorkout()">▶ Commencer ma séance</button>
+<div class="hero"><div class="eyebrow">PROGRESSION</div><h1>Ta salle.<br>Ta progression.</h1><p>Une appli simple pour choisir tes machines, suivre chaque série et voir ton évolution.</p>
+<div class="progress"><i id="homeBar"></i></div><p id="homeXP" style="font-size:12px;margin:7px 0 0"></p>
+<button class="primary" onclick="startQuick()">▶ Commencer ma séance</button></div>
+
+<h2>Aujourd'hui</h2><div class="grid">
+<div class="card stat"><span class="bigicon">🔥</span><b id="sStreak">0</b><small>jours de série</small></div>
+<div class="card stat"><span class="bigicon">⚡</span><b id="sLevel">1</b><small>niveau</small></div>
+<div class="card stat"><span class="bigicon">🏆</span><b id="sRank">Bronze</b><small>rang</small></div>
+<div class="card stat"><span class="bigicon">🏋️</span><b id="sSessions">0</b><small>séances</small></div>
 </div>
-<h2>Ton résumé</h2>
-<div class="grid">
-<div class="card stat"><span class="icon">🔥</span><b id="streak">0</b><small>jours de série</small></div>
-<div class="card stat"><span class="icon">⚡</span><b id="level">1</b><small>niveau</small></div>
-<div class="card stat"><span class="icon">🏆</span><b id="rank">Bronze</b><small>rang</small></div>
-<div class="card stat"><span class="icon">💪</span><b id="sessions">0</b><small>séances</small></div>
+
+<h2>Accès rapide</h2><div class="quick">
+<button onclick="show('workouts',this)"><span class="qi">🏋️</span><b>Séances</b><small>Programmes prêts</small></button>
+<button onclick="show('machines',this)"><span class="qi">🏭</span><b>Machines</b><small>60+ exercices</small></button>
+<button onclick="show('progress',this)"><span class="qi">📈</span><b>Progrès</b><small>Records & volume</small></button>
+<button onclick="show('nutrition',this)"><span class="qi">🥗</span><b>Nutrition</b><small>Calories & macros</small></button>
 </div>
-<h2>Quêtes du jour</h2>
-<div class="card quest"><div class="qicon">🏋️</div><div class="qbody"><strong>Faire une série</strong><div class="qbar"><i id="q1"></i></div><small id="q1txt">0 / 1</small></div></div>
-<div style="height:10px"></div>
-<div class="card quest"><div class="qicon">⚡</div><div class="qbody"><strong>Gagner 50 XP</strong><div class="qbar"><i id="q2"></i></div><small id="q2txt">0 / 50 XP</small></div></div>
-<h2>Accès rapide</h2>
-<div class="quick">
-<button onclick="show('workouts')"><span>🏋️</span><b>S'entraîner</b><small>Choisir une séance</small></button>
-<button onclick="show('progress')"><span>📈</span><b>Progression</b><small>Voir tes records</small></button>
-<button onclick="show('nutrition')"><span>🥗</span><b>Nutrition</b><small>Macros & repas</small></button>
-<button onclick="show('ranks')"><span>🏆</span><b>Rangs</b><small>Monter de niveau</small></button>
-</div>
+
+<h2>Quête du jour</h2><div class="card"><div style="display:flex;align-items:center;gap:12px"><div style="font-size:28px">🎯</div><div style="flex:1"><b>Valide 3 séries</b><div class="muted" id="questText">0 / 3 · +60 XP</div></div></div><div class="progress" style="margin-top:13px"><i id="questBar"></i></div></div>
 </section>
 
 <section id="workouts" class="screen">
-<div class="sectionhead"><div><div class="eyebrow">Entraînement</div><h1>Choisis ta séance</h1></div></div>
-<p>Des routines simples pour commencer sans réfléchir.</p>
-<div class="grid" style="margin-top:16px">
-<button class="card" onclick="startWorkout('Push')"><span class="icon">🔥</span><b>Push</b><p>Dos, pecs, épaules</p></button>
-<button class="card" onclick="startWorkout('Pull')"><span class="icon">💪</span><b>Pull</b><p>Dos, biceps</p></button>
-<button class="card" onclick="startWorkout('Legs')"><span class="icon">🦵</span><b>Legs</b><p>Jambes complètes</p></button>
-<button class="card" onclick="startWorkout('Full Body')"><span class="icon">⚡</span><b>Full Body</b><p>Tout le corps</p></button>
+<div class="eyebrow">ENTRAÎNEMENT</div><h1>Choisis ta séance</h1><p>Des programmes pour plusieurs objectifs et niveaux.</p>
+<h2>Programmes</h2><div id="programs"></div>
+<h2>Splits</h2><div class="quick">
+<button onclick="openWorkout('Push')"><span class="qi">🔥</span><b>Push</b><small>Pecs · épaules · triceps</small></button>
+<button onclick="openWorkout('Pull')"><span class="qi">💪</span><b>Pull</b><small>Dos · biceps</small></button>
+<button onclick="openWorkout('Legs')"><span class="qi">🦵</span><b>Legs</b><small>Quadriceps · ischios · fessiers</small></button>
+<button onclick="openWorkout('Full Body')"><span class="qi">⚡</span><b>Full Body</b><small>Corps entier</small></button>
 </div>
-<h2>Bibliothèque</h2>
-<div class="card">
-<div class="exercise"><div><b>Développé couché</b><small>Pectoraux · triceps</small></div><button onclick="toast('Ajouté à ta séance')">＋</button></div>
-<div class="exercise"><div><b>Tirage vertical</b><small>Dos · biceps</small></div><button onclick="toast('Ajouté à ta séance')">＋</button></div>
-<div class="exercise"><div><b>Squat</b><small>Quadriceps · fessiers</small></div><button onclick="toast('Ajouté à ta séance')">＋</button></div>
-<div class="exercise"><div><b>Développé épaules</b><small>Épaules · triceps</small></div><button onclick="toast('Ajouté à ta séance')">＋</button></div>
-</div>
+</section>
+
+<section id="machines" class="screen">
+<div class="eyebrow">BIBLIOTHÈQUE</div><h1>Machines & exercices</h1><p>Une grande bibliothèque organisée par marque/famille et muscle.</p>
+<input class="search" id="machineSearch" placeholder="🔎 Rechercher..." oninput="renderMachines()">
+<div class="chips" id="chips"></div>
+<div class="machineGrid" id="machineGrid"></div>
+</section>
+
+<section id="detail" class="screen">
+<button class="back" onclick="show('machines')">‹ Machines</button><div id="detailContent" style="margin-top:15px"></div>
 </section>
 
 <section id="session" class="screen">
-<div class="eyebrow" id="sessionType">Séance</div>
-<h1 id="exerciseName">Développé couché</h1>
-<div class="workoutCard">
-<div class="setnum" id="setLabel">SÉRIE 1 / 3</div>
-<div class="big"><span id="weight">40</span> kg</div>
-<div class="two">
-<div class="field"><label>POIDS</label><input id="weightInput" type="number" value="40"></div>
-<div class="field"><label>RÉPÉTITIONS</label><input id="repsInput" type="number" value="8"></div>
-</div>
-<button class="donebtn" onclick="completeSet()">✓ Série terminée</button>
-</div>
-<div class="card timer" style="margin-top:14px"><div class="eyebrow">Repos</div><div class="clock" id="clock">01:30</div><button onclick="startTimer()">Démarrer</button></div>
-<div class="progress"><i id="sessionbar"></i></div>
-<p style="text-align:center;margin-top:8px" id="sessionProgress">0 / 3 séries</p>
-</section>
-
-<section id="ranks" class="screen">
-<div class="eyebrow">Progression</div><h1>Ton parcours</h1>
-<p>Gagne de l'XP avec tes séances et débloque chaque rang.</p>
-<div class="card rankPath" style="margin-top:18px" id="rankPath"></div>
+<button class="back" onclick="show('workouts')">‹ Quitter</button>
+<div style="margin-top:16px"><div class="eyebrow">SÉANCE EN COURS</div><h1 id="sessionName">Push</h1><p id="sessionMeta"></p></div>
+<div id="sessionList" style="margin-top:15px"></div>
+<div class="card" style="margin-top:12px;text-align:center"><div class="eyebrow">REPOS</div><div class="clock" id="clock">01:30</div><button class="dark" onclick="startRest()">Démarrer le repos</button></div>
+<button class="finish" onclick="finishSession()">✓ Terminer la séance</button>
 </section>
 
 <section id="progress" class="screen">
-<div class="eyebrow">Statistiques</div><h1>Ta progression</h1>
-<div class="grid">
-<div class="card stat"><span class="icon">📦</span><b id="volume">0</b><small>kg de volume</small></div>
-<div class="card stat"><span class="icon">🏅</span><b id="prs">0</b><small>records</small></div>
-</div>
-<h2>e1RM</h2>
-<div class="card">
-<div class="barline"><header><b>Développé couché</b><span id="benchVal">0 kg</span></header><div class="track"><i id="benchBar"></i></div></div>
-<div class="barline"><header><b>Squat</b><span>0 kg</span></header><div class="track"><i style="width:0%"></i></div></div>
-<div class="barline"><header><b>Tirage vertical</b><span>0 kg</span></header><div class="track"><i style="width:0%"></i></div></div>
-</div>
+<div class="eyebrow">ANALYSE</div><h1>Ta progression</h1><p>Tout ce que tu fais à la salle devient une donnée utile.</p>
+<div class="grid"><div class="card stat"><span class="bigicon">📦</span><b id="pVolume">0</b><small>kg de volume</small></div><div class="card stat"><span class="bigicon">🏅</span><b id="pPR">0</b><small>records</small></div><div class="card stat"><span class="bigicon">⏱️</span><b id="pTime">0h</b><small>entraînement</small></div><div class="card stat"><span class="bigicon">🔥</span><b id="pStreak">0</b><small>streak</small></div></div>
+<h2>Objectif volume</h2><div class="card"><div class="rankBarTop"><b>Cette période</b><span id="volumeLabel">0 / 10 000 kg</span></div><div class="bar"><i id="volumeBar"></i></div></div>
+<h2>Records</h2><div class="card" id="records"></div>
+<h2>Historique</h2><div class="card"><div class="tableRow"><b>Date</b><b>Séance</b><b>XP</b></div><div id="history"></div></div>
+</section>
+
+<section id="ranks" class="screen">
+<div class="eyebrow">RANGS</div><h1>Ton parcours</h1><p>Monte de Bronze jusqu'à Pro en gagnant de l'XP.</p>
+<div class="card" style="margin-top:16px"><div class="rankBarTop"><b id="currentRank">Bronze</b><span id="rankProgressText">0 XP</span></div><div class="bar"><i id="rankProgress"></i></div></div>
+<h2>Progression</h2><div class="ranks" id="rankList"></div>
 </section>
 
 <section id="nutrition" class="screen">
-<div class="eyebrow">Nutrition</div><h1>Ton alimentation</h1>
-<p>Garde une vision simple de tes objectifs quotidiens.</p>
-<div class="card" style="margin-top:18px">
-<div class="field"><label>OBJECTIF CALORIES</label><input id="calGoal" type="number" value="2500" oninput="updateNutrition()"></div>
-<div class="field"><label>CALORIES CONSOMMÉES</label><input id="calNow" type="number" value="0" oninput="updateNutrition()"></div>
-<div class="barline"><header><b>Calories</b><span id="calTxt">0 / 2500 kcal</span></header><div class="track"><i id="calBar"></i></div></div>
-</div>
-<h2>Macros</h2>
-<div class="grid">
-<div class="card"><span class="tag">PROTÉINES</span><h2 style="margin:8px 0">0 g</h2><p>Objectif : 150 g</p></div>
-<div class="card"><span class="tag">GLUCIDES</span><h2 style="margin:8px 0">0 g</h2><p>Objectif : 280 g</p></div>
-<div class="card"><span class="tag">LIPIDES</span><h2 style="margin:8px 0">0 g</h2><p>Objectif : 80 g</p></div>
-<div class="card"><span class="tag">EAU</span><h2 style="margin:8px 0">0 L</h2><p>Objectif : 2.5 L</p></div>
-</div>
+<div class="eyebrow">NUTRITION</div><h1>Ton carburant</h1><p>Une vue claire de tes calories, macros et hydratation.</p>
+<div class="card" style="margin-top:16px"><div class="two"><div class="field"><label>OBJECTIF KCAL</label><input id="calGoal" type="number" value="2500" oninput="nutrition()"></div><div class="field"><label>CONSOMMÉES</label><input id="calNow" type="number" value="0" oninput="nutrition()"></div></div><div class="rankBar" style="margin-top:15px"><div class="rankBarTop"><b>Calories</b><span id="calText">0 / 2500</span></div><div class="bar"><i id="calBar"></i></div></div></div>
+<div class="grid" style="margin-top:11px"><div class="card stat"><span class="bigicon">🥩</span><b>0 g</b><small>protéines / 160 g</small></div><div class="card stat"><span class="bigicon">🍚</span><b>0 g</b><small>glucides / 280 g</small></div><div class="card stat"><span class="bigicon">🥑</span><b>0 g</b><small>lipides / 80 g</small></div><div class="card stat"><span class="bigicon">💧</span><b>0 L</b><small>eau / 2,5 L</small></div></div>
+<h2>Repas</h2><div class="quick"><button onclick="toast('🍳 Petit-déjeuner ajouté')"><span class="qi">🍳</span><b>Petit-déjeuner</b><small>Ajouter</small></button><button onclick="toast('🍗 Déjeuner ajouté')"><span class="qi">🍗</span><b>Déjeuner</b><small>Ajouter</small></button><button onclick="toast('🥘 Dîner ajouté')"><span class="qi">🥘</span><b>Dîner</b><small>Ajouter</small></button><button onclick="toast('🍌 Collation ajoutée')"><span class="qi">🍌</span><b>Collation</b><small>Ajouter</small></button></div>
 </section>
 </main>
+
 <nav class="nav">
 <button class="active" onclick="show('home',this)"><div>⌂</div>Accueil</button>
 <button onclick="show('workouts',this)"><div>🏋️</div>Séances</button>
-<button onclick="show('progress',this)"><div>📈</div>Stats</button>
-<button onclick="show('nutrition',this)"><div>🥗</div>Nutrition</button>
+<button onclick="show('machines',this)"><div>🏭</div>Machines</button>
+<button onclick="show('progress',this)"><div>📈</div>Progrès</button>
 <button onclick="show('ranks',this)"><div>🏆</div>Rangs</button>
 </nav>
 <div class="toast" id="toast"></div>
 </div>
-<script>
-const KEY='lifttrack_zero_v1';
-let data=JSON.parse(localStorage.getItem(KEY)||'null')||{xp:0,sessions:0,streak:0,volume:0,prs:0};
-let session={type:'Full Body',set:0,total:3,timer:null,seconds:90};
 
-function save(){localStorage.setItem(KEY,JSON.stringify(data));render()}
-function rankInfo(){
- const ranks=[['Bronze',0,'🥉'],['Argent',500,'🥈'],['Or',1200,'🥇'],['Diamant',1700,'💎'],['Mythique',2200,'✦'],['Légendaire',3600,'♛'],['Star',5500,'★'],['Pro',8000,'👑']];
- let r=ranks[0],next=null;
- for(let i=0;i<ranks.length;i++){if(data.xp>=ranks[i][1])r=ranks[i];else{next=ranks[i];break}}
- return {r,next,ranks}
-}
-function render(){
- const ri=rankInfo(), current=ri.r, next=ri.next;
- document.getElementById('headXP').textContent=data.xp+' XP';
- document.getElementById('xpText').textContent=next?`${data.xp} / ${next[1]} XP`:`${data.xp} XP — MAX`;
- const pct=next?((data.xp-current[1])/(next[1]-current[1])*100):100;
- document.getElementById('xpbar').style.width=Math.max(0,Math.min(100,pct))+'%';
- document.getElementById('streak').textContent=data.streak;
- document.getElementById('level').textContent=Math.floor(data.xp/100)+1;
- document.getElementById('rank').textContent=current[0];
- document.getElementById('sessions').textContent=data.sessions;
- document.getElementById('volume').textContent=data.volume.toLocaleString('fr-FR');
- document.getElementById('prs').textContent=data.prs;
- document.getElementById('q1').style.width=(data.sessions?100:0)+'%';
- document.getElementById('q1txt').textContent=(data.sessions?1:0)+' / 1';
- document.getElementById('q2').style.width=Math.min(100,data.xp%100+ (data.xp>=50?100:0))+'%';
- document.getElementById('q2txt').textContent=Math.min(50,data.xp)+' / 50 XP';
- const p=document.getElementById('rankPath'); p.innerHTML='';
- ri.ranks.forEach((x,i)=>{
-   const unlocked=data.xp>=x[1], currentRank=x[0]===current[0];
-   p.innerHTML+=`<div class="rank ${currentRank?'current ':''}${unlocked?'done':'locked'}"><div class="orb">${x[2]}</div><div><b>${x[0]}</b><small>${x[1]} XP ${currentRank?'· TU ES ICI':unlocked?'· DÉBLOQUÉ':'· VERROUILLÉ'}</small></div></div>`;
- });
-}
+<script>
+const KEY='lifttrack_ultime_v1';
+let data=JSON.parse(localStorage.getItem(KEY)||'null')||{
+ xp:0,sessions:0,streak:0,volume:0,prs:0,time:0,sets:0,
+ records:{'Développé couché':0,'Squat':0,'Tirage vertical':0,'Leg Press':0},
+ history:[]
+};
+let activeCat='Tous',timer=null,seconds=90,currentExercises=[];
+
+const ranks=[
+ ['Bronze',0,'🥉'],['Argent',500,'🥈'],['Or',1200,'🥇'],['Diamant',1700,'💎'],
+ ['Mythique',2200,'✦'],['Légendaire',3600,'♛'],['Star',5500,'★'],['Pro',8000,'👑']
+];
+
+const machines=[
+['Chest Press','Pectoraux','Technogym','Pectoraux','🏭'],['Shoulder Press','Épaules','Technogym','Épaules','🏭'],
+['Lat Pulldown','Dos','Technogym','Dos','🏭'],['Low Row','Dos','Technogym','Dos','🏭'],['Leg Press','Jambes','Technogym','Jambes','🦵'],
+['Leg Extension','Jambes','Technogym','Quadriceps','🦵'],['Leg Curl','Jambes','Technogym','Ischios','🦵'],['Abductor','Jambes','Technogym','Fessiers','🦵'],
+['Adductor','Jambes','Technogym','Adducteurs','🦵'],['Cable Crossover','Câbles','Technogym','Pectoraux','🏭'],
+['Hack Squat','Jambes','Hammer Strength','Jambes','🦵'],['Iso-Lateral Chest Press','Pectoraux','Hammer Strength','Pectoraux','🏭'],
+['Iso-Lateral Incline Press','Pectoraux','Hammer Strength','Pectoraux','🏭'],['Iso-Lateral Row','Dos','Hammer Strength','Dos','🏭'],
+['Iso-Lateral High Row','Dos','Hammer Strength','Dos','🏭'],['Iso-Lateral Lat Pulldown','Dos','Hammer Strength','Dos','🏭'],
+['Seated Leg Curl','Jambes','Hammer Strength','Ischios','🦵'],['Glute Drive','Jambes','Hammer Strength','Fessiers','🦵'],
+['V-Squat','Jambes','Hammer Strength','Jambes','🦵'],['Seated Calf','Jambes','Hammer Strength','Mollets','🦵'],
+['Pec Deck','Pectoraux','Machine','Pectoraux','🏭'],['Reverse Pec Deck','Épaules','Machine','Arrière épaules','🏭'],
+['Rear Delt Fly','Épaules','Machine','Arrière épaules','🏭'],['Biceps Curl Machine','Bras','Machine','Biceps','💪'],
+['Triceps Extension Machine','Bras','Machine','Triceps','💪'],['Preacher Curl','Bras','Machine','Biceps','💪'],
+['Dip Machine','Bras','Machine','Triceps','💪'],['Assisted Pull-Up','Dos','Machine','Dos','💪'],
+['Assisted Dip','Bras','Machine','Triceps','💪'],['Back Extension','Dos','Machine','Lombaires','🏭'],
+['Cable Row','Câbles','Câble','Dos','🏭'],['Triceps Pushdown','Câbles','Câble','Triceps','💪'],
+['Cable Curl','Câbles','Câble','Biceps','💪'],['Face Pull','Câbles','Câble','Arrière épaules','💪'],
+['Cable Lateral Raise','Câbles','Câble','Épaules','💪'],['Cable Fly','Câbles','Câble','Pectoraux','🏭'],
+['Cable Crunch','Abdos','Câble','Abdos','🔥'],['Rope Pushdown','Câbles','Câble','Triceps','💪'],
+['Smith Squat','Jambes','Smith','Jambes','🦵'],['Smith Bench Press','Pectoraux','Smith','Pectoraux','🏭'],
+['Smith Incline Press','Pectoraux','Smith','Pectoraux','🏭'],['Smith Romanian Deadlift','Jambes','Smith','Ischios','🦵'],
+['Barbell Bench Press','Pectoraux','Poids libres','Pectoraux','🏋️'],['Incline Dumbbell Press','Pectoraux','Poids libres','Pectoraux','🏋️'],
+['Dumbbell Shoulder Press','Épaules','Poids libres','Épaules','🏋️'],['Barbell Squat','Jambes','Poids libres','Jambes','🏋️'],
+['Romanian Deadlift','Jambes','Poids libres','Ischios','🏋️'],['Barbell Row','Dos','Poids libres','Dos','🏋️'],
+['Dumbbell Curl','Bras','Poids libres','Biceps','🏋️'],['Skull Crusher','Bras','Poids libres','Triceps','🏋️'],
+['Lateral Raise','Épaules','Poids libres','Épaules','🏋️'],['Calf Raise','Jambes','Poids libres','Mollets','🏋️'],
+['Hanging Knee Raise','Abdos','Poids du corps','Abdos','🔥'],['Push-Up','Pectoraux','Poids du corps','Pectoraux','🔥'],
+['Dip','Pectoraux','Poids du corps','Pectoraux','🔥'],['Pull-Up','Dos','Poids du corps','Dos','🔥'],
+['Deadlift','Dos','Poids libres','Dos','🏋️'],['Barbell Hip Thrust','Jambes','Poids libres','Fessiers','🏋️'],
+['Cable Kickback','Câbles','Câble','Fessiers','💪'],['Standing Calf Machine','Jambes','Machine','Mollets','🦵'],
+['Torso Rotation','Abdos','Machine','Abdos','🔥'],['Ab Crunch Machine','Abdos','Machine','Abdos','🔥']
+];
+const cats=['Tous','Technogym','Hammer Strength','Pectoraux','Dos','Épaules','Jambes','Bras','Câbles','Abdos','Poids libres','Machine'];
+
+const programs=[
+ ['💪','Hypertrophie','Prise de muscle','4–5 jours','Push/Pull/Legs'],
+ ['🔥','Force','Progression sur les charges','3–4 jours','Force'],
+ ['🟢','Débutant','Apprendre les mouvements','3 jours','Débutant'],
+ ['⚡','Full Body','Corps entier','3 jours','Full Body'],
+ ['🦵','Legs Focus','Priorité jambes','4 jours','Legs Focus'],
+ ['🏆','Powerbuilding','Force + volume','4–5 jours','Powerbuilding'],
+ ['💎','Upper / Lower','Équilibre haut / bas','4 jours','Upper Lower'],
+ ['🎯','Machines Only','100 % machines','4 jours','Machines Only']
+];
+
+function save(){localStorage.setItem(KEY,JSON.stringify(data));renderAll()}
+function getRank(){let cur=ranks[0],next=null;for(const r of ranks){if(data.xp>=r[1])cur=r;else{next=r;break}}return{cur,next}}
 function show(id,btn){
- document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));
+ document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
  document.getElementById(id).classList.add('active');
- document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));
- if(btn)btn.classList.add('active'); else{
-   const b=[...document.querySelectorAll('.nav button')].find(x=>x.getAttribute('onclick')?.includes(`'${id}'`));
-   if(b)b.classList.add('active');
- }
- window.scrollTo({top:0,behavior:'smooth'}); render();
+ document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+ if(btn)btn.classList.add('active');
+ scrollTo(0,0);renderAll()
 }
-function startWorkout(type='Full Body'){
- session={type,set:0,total:3,timer:null,seconds:90};
- document.getElementById('sessionType').textContent=type+' · Séance en cours';
- document.getElementById('exerciseName').textContent=type==='Legs'?'Squat':type==='Pull'?'Tirage vertical':'Développé couché';
- document.getElementById('setLabel').textContent='SÉRIE 1 / 3';
- document.getElementById('sessionProgress').textContent='0 / 3 séries';
- document.getElementById('sessionbar').style.width='0%';
- document.getElementById('clock').textContent='01:30';
- show('session');
+function renderAll(){
+ const rr=getRank();document.getElementById('xpTop').textContent=data.xp+' XP';
+ document.getElementById('sStreak').textContent=data.streak;document.getElementById('sLevel').textContent=Math.floor(data.xp/100)+1;
+ document.getElementById('sRank').textContent=rr.cur[0];document.getElementById('sSessions').textContent=data.sessions;
+ document.getElementById('pVolume').textContent=data.volume.toLocaleString('fr-FR');document.getElementById('pPR').textContent=data.prs;
+ document.getElementById('pTime').textContent=Math.floor(data.time/60)+'h';document.getElementById('pStreak').textContent=data.streak;
+ const pct=rr.next?((data.xp-rr.cur[1])/(rr.next[1]-rr.cur[1])*100):100;
+ document.getElementById('homeBar').style.width=Math.max(0,Math.min(100,pct))+'%';
+ document.getElementById('homeXP').textContent=rr.next?`${data.xp} / ${rr.next[1]} XP → ${rr.next[0]}`:`${data.xp} XP · Pro atteint`;
+ const q=Math.min(3,data.sets%4);document.getElementById('questText').textContent=`${q} / 3 · +60 XP`;document.getElementById('questBar').style.width=q/3*100+'%';
+ document.getElementById('volumeLabel').textContent=`${data.volume.toLocaleString('fr-FR')} / 10 000 kg`;document.getElementById('volumeBar').style.width=Math.min(100,data.volume/100)+'%';
+ document.getElementById('currentRank').textContent=rr.cur[0];document.getElementById('rankProgressText').textContent=data.xp+' XP';document.getElementById('rankProgress').style.width=Math.max(0,Math.min(100,pct))+'%';
+ renderPrograms();renderMachines();renderRanks();renderRecords();renderHistory()
 }
-function completeSet(){
- session.set++;
- const w=Number(document.getElementById('weightInput').value)||0;
- const reps=Number(document.getElementById('repsInput').value)||0;
- data.xp+=20; data.volume+=w*reps;
- if(session.set>=session.total){
-   data.sessions++; data.streak=Math.max(1,data.streak+1); data.prs+=1; data.xp+=40;
-   save(); toast('🎉 Séance terminée · +60 XP');
-   setTimeout(()=>show('home'),650);
- }else{
-   document.getElementById('setLabel').textContent=`SÉRIE ${session.set+1} / 3`;
-   document.getElementById('sessionProgress').textContent=`${session.set} / 3 séries`;
-   document.getElementById('sessionbar').style.width=(session.set/3*100)+'%';
-   toast('⚡ Série validée · +20 XP');
-   save();
-   startTimer();
- }
+function renderPrograms(){document.getElementById('programs').innerHTML=programs.map(p=>`<div class="card program" onclick="openWorkout('${p[4]}')"><div class="programIcon">${p[0]}</div><div class="programBody"><b>${p[1]}</b><small>${p[2]} · ${p[3]}</small></div><b>›</b></div>`).join('')}
+function renderMachines(){
+ const q=(document.getElementById('machineSearch')?.value||'').toLowerCase();
+ document.getElementById('chips').innerHTML=cats.map(c=>`<button class="${c===activeCat?'active':''}" onclick="activeCat='${c}';renderMachines()">${c}</button>`).join('');
+ document.getElementById('machineGrid').innerHTML=machines.filter(m=>(activeCat==='Tous'||m[2]===activeCat||m[1]===activeCat||m[3]===activeCat)&&(!q||m.join(' ').toLowerCase().includes(q))).map((m,i)=>`
+ <button class="card machine" onclick="openDetail(${i})"><div class="machineArt"><svg viewBox="0 0 120 90" fill="none"><rect x="49" y="14" width="22" height="55" rx="5" fill="#23323c"/><path d="M28 70V39h16l12-13 12 5 8 22H57" stroke="#5cf27a" stroke-width="5"/><path d="M20 70h80" stroke="#5cf27a" stroke-width="6"/><circle cx="28" cy="77" r="6" fill="#596771"/><circle cx="92" cy="77" r="6" fill="#596771"/></svg></div><div class="machineBody"><b>${m[0]}</b><small>${m[3]}</small><span class="tag">${m[2]}</span></div></button>`).join('')
 }
-function startTimer(){
- clearInterval(session.timer);session.seconds=90;updateClock();
- session.timer=setInterval(()=>{session.seconds--;updateClock();if(session.seconds<=0){clearInterval(session.timer);toast('⏱️ Repos terminé !')}},1000);
+function openDetail(i){const m=machines[i];document.getElementById('detailContent').innerHTML=`
+<div class="hero"><div class="eyebrow">${m[2]}</div><h1>${m[0]}</h1><p>${m[3]} · catégorie ${m[1]}</p><button class="primary" onclick="openWorkout('${m[0]}')">▶ Ajouter à ma séance</button></div>
+<h2>Fiche exercice</h2><div class="card"><div class="tableRow"><b>Muscle</b><span>${m[3]}</span><span>🎯</span></div><div class="tableRow"><b>Type</b><span>${m[2]}</span><span>🏭</span></div><div class="tableRow"><b>Format</b><span>3–4 séries</span><span>🔁</span></div><div class="tableRow"><b>Rep range</b><span>8–15</span><span>📈</span></div></div>
+<h2>Conseil LiftTrack</h2><div class="card"><p>Commence avec une charge que tu contrôles parfaitement. Note la charge et les répétitions à chaque série pour voir ta progression.</p></div>`;show('detail')}
+function startQuick(){openWorkout('Push')}
+function openWorkout(type){
+ let ex;
+ if(type.includes('Push')||type==='Pecs')ex=[['Chest Press',3],['Iso-Lateral Incline Press',3],['Shoulder Press',3],['Triceps Pushdown',3]];
+ else if(type.includes('Pull')||type==='Dos')ex=[['Lat Pulldown',3],['Iso-Lateral Row',3],['Low Row',3],['Cable Curl',3]];
+ else if(type.includes('Legs'))ex=[['Hack Squat',3],['Leg Press',3],['Leg Extension',3],['Seated Leg Curl',3],['Standing Calf Machine',3]];
+ else if(type.includes('Upper'))ex=[['Chest Press',3],['Lat Pulldown',3],['Shoulder Press',3],['Cable Row',3]];
+ else if(type.includes('Machines'))ex=[['Chest Press',3],['Lat Pulldown',3],['Leg Press',3],['Cable Row',3]];
+ else ex=[['Chest Press',3],['Lat Pulldown',3],['Leg Press',3],['Cable Row',3]];
+ currentExercises=ex;document.getElementById('sessionName').textContent=type;document.getElementById('sessionMeta').textContent=ex.length+' exercices · 3 séries · suivi automatique';
+ document.getElementById('sessionList').innerHTML=ex.map((e,i)=>`<div class="card" style="margin-bottom:10px"><div class="eyebrow">EXERCICE ${i+1}</div><h2 style="margin:5px 0">${e[0]}</h2>${[1,2,3].map(n=>`<div class="set"><div class="setN">${n}</div><div><b>Série ${n}</b><br><input type="number" value="40"> kg · <input type="number" value="10"> reps</div><button class="check" onclick="completeSet(this)">✓</button></div>`).join('')}</div>`).join('');
+ show('session')
 }
-function updateClock(){const m=String(Math.floor(session.seconds/60)).padStart(2,'0'),s=String(session.seconds%60).padStart(2,'0');document.getElementById('clock').textContent=m+':'+s}
-function updateNutrition(){const goal=Number(document.getElementById('calGoal').value)||1,now=Number(document.getElementById('calNow').value)||0;document.getElementById('calTxt').textContent=`${now} / ${goal} kcal`;document.getElementById('calBar').style.width=Math.min(100,now/goal*100)+'%'}
-function toast(t){const el=document.getElementById('toast');el.textContent=t;el.classList.add('show');clearTimeout(window.tt);window.tt=setTimeout(()=>el.classList.remove('show'),1700)}
-render();updateNutrition();
-if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+function completeSet(btn){
+ if(btn.disabled)return;btn.disabled=true;btn.classList.add('done');data.xp+=20;data.sets++;
+ const inputs=btn.parentElement.querySelectorAll('input');const w=Number(inputs[0].value)||0,r=Number(inputs[1].value)||0;data.volume+=w*r;
+ save();toast('⚡ Série validée · +20 XP')
+}
+function finishSession(){
+ data.sessions++;data.streak=Math.max(1,data.streak+1);data.xp+=120;data.prs+=1;data.time+=45;
+ data.history.unshift({date:new Date().toLocaleDateString('fr-FR'),name:document.getElementById('sessionName').textContent,xp:120});data.history=data.history.slice(0,12);
+ save();toast('🎉 Séance terminée · +120 XP');setTimeout(()=>show('home'),500)
+}
+function startRest(){clearInterval(timer);seconds=90;tick();timer=setInterval(()=>{seconds--;tick();if(seconds<=0){clearInterval(timer);toast('⏱️ Repos terminé')}},1000)}
+function tick(){document.getElementById('clock').textContent=String(Math.floor(seconds/60)).padStart(2,'0')+':'+String(seconds%60).padStart(2,'0')}
+function renderRanks(){
+ const rr=getRank();document.getElementById('rankList').innerHTML=ranks.map(r=>`<div class="rankCard ${r[0]===rr.cur[0]?'current':''} ${data.xp<r[1]?'locked':''}"><div class="rankIcon">${r[2]}</div><div class="rankText"><b>${r[0]}</b><small>${r[1]} XP minimum</small></div>${data.xp>=r[1]?'<span class="unlock">Débloqué</span>':''}</div>`).join('')
+}
+function renderRecords(){document.getElementById('records').innerHTML=Object.entries(data.records).map(([n,v])=>`<div class="tableRow"><b>${n}</b><span>${v||0} kg</span><span>🏆</span></div>`).join('')}
+function renderHistory(){document.getElementById('history').innerHTML=data.history.length?data.history.map(x=>`<div class="tableRow"><span>${x.date}</span><span>${x.name}</span><span>+${x.xp}</span></div>`).join(''):'<p style="margin:10px 0 0">Aucune séance terminée pour le moment.</p>'}
+function nutrition(){const g=Number(document.getElementById('calGoal').value)||1,n=Number(document.getElementById('calNow').value)||0;document.getElementById('calText').textContent=`${n} / ${g} kcal`;document.getElementById('calBar').style.width=Math.min(100,n/g*100)+'%'}
+function toast(t){const x=document.getElementById('toast');x.textContent=t;x.classList.add('show');clearTimeout(window.__toast);window.__toast=setTimeout(()=>x.classList.remove('show'),1700)}
+renderAll();nutrition();
+if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
 </script>
 </body>
 </html>

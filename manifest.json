@@ -1,10 +1,10 @@
 {
-  "name": "LiftTrack",
+  "name": "LiftTrack — Ultime",
   "short_name": "LiftTrack",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#f7f9fb",
-  "theme_color": "#58cc02",
+  "background_color": "#080d12",
+  "theme_color": "#5cf27a",
   "lang": "fr",
-  "icons": []
+  "description": "Application personnelle de suivi de musculation."
 }

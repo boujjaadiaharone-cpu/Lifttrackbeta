@@ -1,12 +1,17 @@
-# LiftTrack
+# LiftTrack — Version Ultime
 
-Application fitness personnelle en PWA.
+Base créée pour GitHub Pages.
 
-## Mise en ligne GitHub Pages
-1. Mettre `index.html`, `manifest.json` et `sw.js` à la racine du dépôt.
-2. GitHub → Settings → Pages.
-3. Source : Deploy from a branch.
-4. Branch : `main` / `(root)`.
-5. Ouvrir l'URL GitHub Pages.
+Inclus :
+- Logo LiftTrack intégré dans l'application et manifest PWA
+- Accueil gamifié
+- XP, niveaux et parcours Bronze → Pro
+- Séances Push / Pull / Legs / Full Body + programmes
+- Séances interactives avec séries, poids, répétitions et repos
+- Progression, volume, records et historique
+- Nutrition : calories, macros, hydratation et repas
+- Bibliothèque de 60+ machines/exercices
+- Catégories Technogym, Hammer Strength, câbles, machines, Smith, poids libres et poids du corps
+- Interface mobile-first
 
-Les données de l'application sont enregistrées localement dans le navigateur.
+Les noms Technogym et Hammer Strength servent à décrire les familles/types d'équipements présents en salle ; cette application n'est pas affiliée à ces marques.
